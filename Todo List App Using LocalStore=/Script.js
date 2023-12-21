@@ -38,7 +38,11 @@
 
 
 let recordsDisplay = document.getElementById("records")
+const textVal = document.getElementById("username"); 
+const btn = document.getElementById("addUser");  
 let userArray = [];
+
+let EditId = null;
 let objstr = localStorage.getItem('user');
 if(objstr!=null){
     userArray = JSON.parse(objstr);
@@ -49,8 +53,8 @@ if(objstr!=null){
  function myClickFun(){
    
         //recordsDisplay = document.getElementById("records")
-        const btn = document.getElementById("addUser");
-        const textVal = document.getElementById("username");    
+        // const btn = document.getElementById("addUser");
+        
 
         console.log(textVal.value);
         // here we will push the name which is written by the user 
@@ -106,10 +110,10 @@ if(objstr!=null){
         let statement = '';
         userArray.forEach((user,i) =>{
             statement += `<tr>
-            <th scope="row">${i++}</th>
+            <th scope="row">${i+1}</th>
             <td>${user.name}</td>
-            <td> <i class="btn text-white fa fa-edit btn-info mx-2"> </i>
-                 <i class="btn btn-danger text-white fa fa-trash"></i></td>
+            <td> <i class="btn text-white fa fa-edit btn-info mx-2"  onclick ='EditInfo(${i})'> </i>
+                 <i class="btn btn-danger text-white fa fa-trash" onclick ='DeleteInfo(${i})'></i></td>
             <td></td>
           </tr>`
         });
@@ -118,9 +122,18 @@ if(objstr!=null){
     }
 
 
-    function DeleteInfo(){
-
+    function DeleteInfo(id){
+       userArray.splice(id,1)// it is use to delete and add data into local storage
+       saveInfo(userArray);
+       DisplayInfo();
     }   
-    
+    function EditInfo(id){
+     EditId = id;
+     textVal.value = userArray[id].name;
+    btn.value = '';
+    DisplayInfo();
+    btn.innerHTML = textVal;
+
+    }
     
 // })
